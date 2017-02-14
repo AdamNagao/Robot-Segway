@@ -1,0 +1,37 @@
+package project;
+
+import lejos.hardware.motor.Motor;
+
+public class Main {
+
+	static float kp = 1;
+	static float ki = 1;
+	static float kd = 1;
+	static float output;
+	public static void main(String[] args){
+		
+		PID.Compute();
+		PID.SetTunings(kp, ki,kd);
+		
+		while(true){
+			PID.Compute();
+			
+			Motor.A.setSpeed(output);
+		}
+	}
+	
+	public static void setMotorSpeed(char C, float speed, long time) throws InterruptedException{ //This method will run motor for a amount of time in miliseconds 
+		//Example call setMotorSpeed(A,1000);  Will run Motor A forward for 1000 miliseconds
+		if(C == 'A'){
+			Motor.A.setSpeed(speed);
+			Thread.sleep(time);
+		} else if (C == 'B') {
+			Motor.B.setSpeed(speed);
+			Thread.sleep(time);
+		} else {
+			System.out.println("You are trying to move a motor that doesn't exist" );
+		}
+	}
+}
+
+
