@@ -1,2 +1,0 @@
-INDEX VERSION 1.129+C:\Users\adam\Documents\GitHub\projectjerald\ProjectJerald\.metadata\.plugins\org.eclipse.jdt.core
-349913609.index
