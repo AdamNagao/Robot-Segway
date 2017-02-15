@@ -1,5 +1,7 @@
 package project;
 
+import lejos.utility.Stopwatch;
+
 public class PID {
 
 	
@@ -9,9 +11,14 @@ public class PID {
 	static float errSum, lastErr;
 	static float kp, ki, kd;
 	
+	static Stopwatch sw = new Stopwatch(); 
+
+	
 	public static void Compute(){
 		/*How long since we last calculated*/
-		float now = millis();
+		
+		float now = sw.elapsed(); //elapsed(): time elapsed in milliseconds
+		
 		float timeChange =(now - lastTime);
 		/*Compute all the working error variables*/
 		float error = Setpoint - Input;
@@ -24,6 +31,7 @@ public class PID {
 		lastTime = now;
 	}
 	
+
 	public static void SetTunings(float Kp, float Ki, float Kd){
 		kp = Kp;
 		ki = Ki;
