@@ -1,0 +1,16 @@
+package project;
+
+import lejos.hardware.lcd.LCD;
+import lejos.utility.Delay;
+
+public class Main {
+
+
+	public static void main(String[] args) throws InterruptedException{
+		
+		LCD.drawString("Plugin Test", 0, 4);
+		Delay.msDelay(5000);
+	}
+}
+
+

@@ -14,7 +14,7 @@ public class PID {
 	static Stopwatch sw = new Stopwatch(); 
 
 	
-	public static void Compute(){
+	public static float Compute(){
 		/*How long since we last calculated*/
 		
 		float now = sw.elapsed(); //elapsed(): time elapsed in milliseconds
@@ -29,6 +29,7 @@ public class PID {
 		/*Remember some variables for next time*/
 		lastErr = error;
 		lastTime = now;
+		return Output;
 	}
 	
 

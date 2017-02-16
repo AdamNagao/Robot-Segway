@@ -1,0 +1,50 @@
+package project;
+
+import lejos.hardware.BrickFinder;
+import lejos.hardware.Button;
+import lejos.hardware.ev3.EV3;
+import lejos.hardware.lcd.TextLCD;
+import lejos.hardware.motor.Motor;
+import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.EV3GyroSensor;
+
+public class Main {
+
+	static float kp = 1;
+	static float ki = 1;
+	static float kd = 1;
+	static float output;
+	
+	public static void main(String[] args) throws InterruptedException{
+		
+		EV3 ev3brick =(EV3) BrickFinder.getLocal();
+		TextLCD text = ev3brick.getTextLCD();
+		EV3GyroSensor Gyro = new EV3GyroSensor(SensorPort.S1);
+		
+		text.drawString("Position the Robot for Calibration, then hit enter",0,0);
+		
+		Motor.A.setSpeed(100);
+		Thread.sleep(5000);
+		/*Button.ENTER.waitForPressAndRelease();
+		
+		Gyro.reset();  //Zero the gyro
+		Gyro.getAngleMode(); //Tell the gyro we are in angular velocity mode
+		PID.SetTunings(kp, ki,kd); //Set out PIDs
+		
+		
+		Button.ENTER.waitForPressAndRelease();
+		while(true){
+			text.drawString("Robot Running!",0,0);
+			Thread.sleep(500);
+			//Calculate the output of the PID Alg
+			output = PID.Compute();
+			
+			//Set Motors to calculated output
+			Motor.A.setSpeed(output);
+			Motor.B.setSpeed(output);
+		}*/
+	}
+	
+}
+
+
