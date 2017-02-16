@@ -27,18 +27,11 @@ public class Main {
 		text.drawString("Position the Robot for Calibration, then hit enter",0,0);
 	
 		Button.ENTER.waitForPressAndRelease();
-		
+		text.drawString("",0,0);   //Clear the LCD from the previous print
 		Gyro.reset();  //Zero the gyro
-		
 		Gyro.getAngleMode(); //Tell the gyro we are in angle mode
+		PID.SetTunings(kp, ki,kd); //Set out PIDs
 		
-		PID.SetTunings(kp, ki,kd); //Set PIDs
-		
-		text.drawString("Press Enter to run Robot!",0,0);
-		
-		Button.ENTER.waitForPressAndRelease();
-		
-		text.drawString("Robot Running!",0,0);
 		
 		while(!Button.ENTER.isDown()){   //Apparently infinite while loops break things, so loop until enter is pressed
 			

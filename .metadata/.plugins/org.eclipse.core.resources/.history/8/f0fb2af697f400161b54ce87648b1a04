@@ -7,7 +7,7 @@ public class PID {
 	
 	/*working variables**/
 	static float lastTime;
-	static float Input, Output; 
+	static float Input, Output, 
 	static float Setpoint = 0;  //Setpoint is angle zero where the robot is standing straight up
 	static float errSum, lastErr;
 	static float kp, ki, kd;

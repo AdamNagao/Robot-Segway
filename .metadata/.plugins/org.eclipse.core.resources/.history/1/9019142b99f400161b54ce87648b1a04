@@ -37,9 +37,7 @@ public class Main {
 		text.drawString("Press Enter to run Robot!",0,0);
 		
 		Button.ENTER.waitForPressAndRelease();
-		
 		text.drawString("Robot Running!",0,0);
-		
 		while(!Button.ENTER.isDown()){   //Apparently infinite while loops break things, so loop until enter is pressed
 			
 			Gyro.getAngleMode().fetchSample(AngleSamples, 0);   //Take a sample from the gyro and write to the AngleSamples Array starting at index 0

@@ -25,31 +25,33 @@ public class Main {
 		EV3GyroSensor Gyro = new EV3GyroSensor(SensorPort.S1);
 		
 		text.drawString("Position the Robot for Calibration, then hit enter",0,0);
-	
+		/*
+		Motor.A.setSpeed(1000);
+		Motor.A.forward();
+		Motor.B.setSpeed(1000);
+		Motor.B.forward();
+		Thread.sleep(5000);
+		*/
 		Button.ENTER.waitForPressAndRelease();
-		
+		text.drawString("",0,0);   //Clear the LCD from the previous print
 		Gyro.reset();  //Zero the gyro
+		Gyro.getAngleMode(); //Tell the gyro we are in angular velocity mode
+		PID.SetTunings(kp, ki,kd); //Set out PIDs
 		
-		Gyro.getAngleMode(); //Tell the gyro we are in angle mode
 		
-		PID.SetTunings(kp, ki,kd); //Set PIDs
-		
-		text.drawString("Press Enter to run Robot!",0,0);
-		
-		Button.ENTER.waitForPressAndRelease();
-		
-		text.drawString("Robot Running!",0,0);
-		
-		while(!Button.ENTER.isDown()){   //Apparently infinite while loops break things, so loop until enter is pressed
+		while(!Button.ENTER.isDown()){
 			
-			Gyro.getAngleMode().fetchSample(AngleSamples, 0);   //Take a sample from the gyro and write to the AngleSamples Array starting at index 0
-			text.drawString("Angle X is " + AngleSamples[0], 0, 3);  //Print Gyro Angle for debugging
-	        Delay.msDelay(10);   //This may or may not be needed, but was in the tutorial I read
+			Gyro.getAngleMode().fetchSample(AngleSamples, 0);
+			text.drawString("Angle X is " + AngleSamples[0], 0, 3);
+	        Delay.msDelay(10);
 			
-			output = PID.Compute(); 	//Calculate the output of the PID Alg
 			
-			//Set Motors to calculated output. If we have a negative error, then correct by driving forward. Else positive error, correct by driving back
-			if(output < 0){
+			Thread.sleep(500);
+			//Calculate the output of the PID Alg
+			output = PID.Compute();
+			
+			//Set Motors to calculated output
+			if(output > 0){
 				Motor.A.setSpeed(output);
 				Motor.B.setSpeed(output);
 				Motor.A.forward();
