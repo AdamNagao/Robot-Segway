@@ -60,6 +60,7 @@ public class Main {
 			} 
 			else if(Button.DOWN.isDown()){
 				Gyro.reset();  //Zero the gyro
+				text.drawString("Gyro Zero'd!", 0, 4); 
 			}
 			
 			//Set Motors to calculated output. If we have a negative error, then correct by driving forward. Else positive error, correct by driving back

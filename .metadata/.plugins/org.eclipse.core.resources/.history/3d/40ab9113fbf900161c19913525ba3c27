@@ -59,8 +59,10 @@ public class Main {
 				PID.SetTunings(kp, ki,kd); 
 			} 
 			else if(Button.DOWN.isDown()){
+				//zero gryo
 				Gyro.reset();  //Zero the gyro
 			}
+			
 			
 			//Set Motors to calculated output. If we have a negative error, then correct by driving forward. Else positive error, correct by driving back
 			if(output < 0){
