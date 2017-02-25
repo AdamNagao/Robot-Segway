@@ -22,13 +22,13 @@ public class PID {
 		float now = sw.elapsed(); //elapsed(): time elapsed in milliseconds
 		
 		float timeChange =(now - lastTime);
-		/*Compute all the working error variables*/
+
 		float error = Setpoint - Input;
 		errSum += (error * timeChange);
 		float dErr = (error - lastErr) / timeChange;
-		/*Compute PID Output*/
+
 		Output = kp * error + ki * errSum + kd * dErr;
-		/*Remember some variables for next time*/
+
 		lastErr = error;
 		lastTime = now;
 		return Output;
