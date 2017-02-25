@@ -1,3 +1,9 @@
+/*********
+ *Gerardo Rodriguez
+ * Adam Nagao
+ * 
+ */
+
 package project;
 
 import lejos.hardware.BrickFinder;
