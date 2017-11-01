@@ -1,3 +1,6 @@
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -5,35 +8,47 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int numOfDevices = 5;
-		DVR dvr = new DVR(numOfDevices);
-		Scanner scanner = new Scanner(System.in);
+		int numOfReady = 0;
 		boolean running = true;
-		System.out.println("Table Initialized:");
-		dvr.matrix.printMatrix();
+		Scanner scanner = new Scanner(System.in);
+		ArrayList<DVR> network = new ArrayList<DVR>();
 		
-		while(running){
-			
-			System.out.println("Please enter an update to the network");
-			System.out.println("What Node are we starting at?");
-			int start = scanner.nextInt();
-			System.out.println("What Node are we finishing at?");
-			int finish = scanner.nextInt();
-			System.out.println("What is the cost of going from Node " + start + " to Node " + finish);
-			int cost = scanner.nextInt();
-			
-			System.out.println("Table Updated!");
-			dvr.updateMatrix(start,finish,cost);
-			dvr.matrix.printMatrix();
-			
-			System.out.println("Would you like to keep updating the network? Y/N");
-			String m = scanner.next();
-			
-			if(m.toUpperCase().contentEquals("Y")){
-				running = true;
-			} else {
-				running = false;
-			}
+		for(int i = 0;i<numOfDevices;i++){
+			DVR dvr = new DVR(i,numOfDevices);
+			dvr.networkChanged = true;
+			network.add(dvr);
+			dvr.start();
 		}
+
+		while(running){
+			if((numOfReady == 5) && DVR.semaphore.tryAcquire()){
+
+				System.out.println("What is the Starting Node");
+				int start = scanner.nextInt();
+				System.out.println("What is the Ending Node");
+				int end = scanner.nextInt();
+				System.out.println("What is the Cost");
+				int cost = scanner.nextInt();
+				
+				for(int i = 0;i<numOfDevices;i++){
+					network.get(i).s = start;
+					network.get(i).e = end;
+					network.get(i).c = cost;
+					network.get(i).networkChanged = true;
+				}
+				DVR.semaphore.release();
+				numOfReady = 0;
+			} else {
+				for(int i = 0;i<numOfDevices;i++){
+					if(network.get(i).isReady){
+						numOfReady++;
+					} 
+					
+				}
+			}
+
+		}
+		
 
 	}
 

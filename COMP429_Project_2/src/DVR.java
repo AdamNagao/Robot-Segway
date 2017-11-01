@@ -1,10 +1,43 @@
-public class DVR {
+import java.util.concurrent.Semaphore;
+
+public class DVR extends Thread{
 	AdjMatrix matrix;
+	int num = 0;
+	boolean isReady = true;
+	boolean networkChanged = false;
+	int s;
+	int e;
+	int c;
 	
-	public DVR(int i) {
-		initializeMatrix(i);
+	static Semaphore semaphore = new Semaphore(1, true);
+	
+	public DVR(int i, int numOfDevices) {
+		this.num = i;
+		initializeMatrix(numOfDevices);
 	}
 
+	@Override
+	public void run(){
+		while(true){
+			if(networkChanged){
+				if(semaphore.tryAcquire() && (isReady == true)){
+					isReady = false;
+					updateMatrix(s,e,c);
+				}
+				printMatrix();
+				semaphore.release();
+				networkChanged = false;
+				isReady = true;
+			}
+			
+		}
+	}
+	
+	void printMatrix(){
+		System.out.print("Device Number: " + num + " Table initialized");
+		matrix.printMatrix();
+
+	}
 	void initializeMatrix(int size){
 		matrix = new AdjMatrix(size);
 		
@@ -22,6 +55,7 @@ public class DVR {
 	
 	void updateMatrix(int start,int finish,int weight){
 		matrix.insert(start, finish, weight);
+		printMatrix();
 	}
 	
 }
@@ -39,15 +73,9 @@ class AdjMatrix {
 	 public void delete(int row,int column){
 		 array[row][column] = 0;
 	 }
-	public void printMatrix(){
-		System.out.print("        ");
-		for(int i = 0;i<array.length;i++){
-			System.out.print(" " + i + "  ");
-		}
-		System.out.println();
-		System.out.println();
+	 public void printMatrix(){
+		 System.out.println();
 		for(int i = 0; i< array.length;i++){
-			System.out.print(i + "        ");
 			for(int j = 0; j < array.length;j++){
 			
 				System.out.print(array[i][j] + "  ");
@@ -55,4 +83,4 @@ class AdjMatrix {
 			System.out.println();
 		}
 	}
-	}
+}
